@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    <%= full_title yield :title %>
+  </title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <%= stylesheet_link_tag "application", media: "all", "data-turbo-track": "reload" %>
+
+  <%= javascript_include_tag "application", "data-turbo-track": "reload" %>
+  
+  <%= javascript_importmap_tags %>
+
+  <!-- Disable dates -->
+  <%= javascript_include_tag "https://cdn.jsdelivr.net/npm/flatpickr" %>
+  <%= stylesheet_link_tag "https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" %>
+
+  <!-- ✅ Bootstrap 3.4.1 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <%= javascript_importmap_tags %>
+</head>
+
+<body>
+  <%= render "layouts/header" %>
+  <div class="container">
+
+    <% flash.each do |message_type, message| %>
+      <div class="alert alert-<%= message_type %> ">
+        <%= message %>
+      </div>
+    <% end %>
+
+    <%= yield %>
+
+    <!-- ✅ jQuery + Bootstrap 3.4.1 JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js"></script>
+  </div>
+</body>
+
+
+</html>

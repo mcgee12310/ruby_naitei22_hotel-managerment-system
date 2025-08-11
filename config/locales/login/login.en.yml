@@ -1,0 +1,11 @@
+en:
+  login:
+    title: "Login"
+    login_now: "Log in now!"
+    submit: "Login"
+    email: "Email"
+    password: "Password"
+    remember: "Remember me on this computer"
+    new_user: "New User?"
+    signup: "Sign Up Now!"
+    failure: "Wrong email or password!"

@@ -1,0 +1,17 @@
+vi:
+  bookings:
+    card:
+      check_in: "Ngày nhận phòng"
+      check_out: "Ngày trả phòng"
+      guests: "Số lượng khách"
+      note: "Ghi chú"
+      nights: "Số đêm:"
+      total_price: "Tổng giá:"
+      select_dates: "Vui lòng chọn ngày để xem giá"
+      error_price: "Không thể tính giá."
+      dash: "-"
+      reserve: "Đặt phòng"
+      notice: "Bạn sẽ chưa bị tính phí ngay"
+      need_login: "Vui lòng đăng nhập để đặt phòng."
+      already_booked: "Bạn đã đặt phòng này!"
+      current_booking: "Xem đơn hiện tại."
