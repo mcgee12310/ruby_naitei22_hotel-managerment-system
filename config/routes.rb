@@ -33,13 +33,16 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :bookings, only: [:index] do
+    resources :bookings, only: %i(index destroy) do
+      collection do
+        get :current_booking
+      end
       member do
-        patch :update_request
+        patch :confirm_booking
       end
     end
 
-    resources :requests
+    resources :requests, only: [:destroy]
   # Defines the r oot path route ("/")
   # root "articles#index"
   end

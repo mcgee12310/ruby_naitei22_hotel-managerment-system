@@ -34,4 +34,12 @@ class Request < ApplicationRecord
 
     availabilities.sum(:price)
   end
+
+  def overlap_exists?
+    Request
+      .where(room_id:)
+      .where.not(status: [:draft, :declined, :cancelled])
+      .where("check_in < ? AND check_out > ?", check_out, check_in)
+      .exists?
+  end
 end

@@ -34,12 +34,12 @@ class RoomsController < ApplicationController
     if check_in && check_out && check_out >= check_in
       nights = (check_out - check_in).to_i
       total_price = room.room_availabilities
-                            .where(available_date: check_in..check_out)
-                            .sum(:price)
+                        .where(available_date: check_in..check_out)
+                        .sum(:price)
 
-      render json: { total_price:, nights: }
+      render json: {total_price:, nights:}
     else
-      render json: { total_price: nil, nights: nil }
+      render json: {total_price: nil, nights: nil}
     end
   end
 

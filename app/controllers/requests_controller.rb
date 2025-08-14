@@ -1,15 +1,23 @@
 class RequestsController < ApplicationController
-  def index; end
+  before_action :load_request, only: %i(destroy)
 
-  def show; end
+  def destroy
+    if @request.destroy
+      flash[:success] = t(".success")
+    else
+      flash[:danger] = t(".failure")
+    end
 
-  def new; end
+    redirect_to current_booking_bookings_path
+  end
 
-  def create; end
+  private
 
-  def edit; end
+  def load_request
+    @request = Request.find_by id: params[:id]
+    return if @request
 
-  def update; end
-
-  def destroy; end
+    flash[:warning] = t(".not_found")
+    redirect_to root_path
+  end
 end

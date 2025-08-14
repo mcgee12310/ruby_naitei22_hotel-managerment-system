@@ -1,0 +1,65 @@
+<% provide :title, t("current_booking.title") %>
+
+<div class="bookings-list">
+  <div class="custom-modal-content">
+      <h2><%= t("current_booking.title") %></h2>
+      <div class="modal-body">
+      <% if @current_booking.requests.any? %>
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th data-column="request-id" ><%= t("current_booking.request_id") %></th>
+              <th data-column="room-name" ><%= t("current_booking.room_name") %></th>
+              <th data-column="room-name" ><%= t("current_booking.room_type") %></th>
+              <th data-column="room-name" ><%= t("current_booking.guests") %></th>
+              <th data-column="price" ><%= t("current_booking.price") %></th>
+              <th data-column="check-in" ><%= t("current_booking.check_in") %></th>
+              <th data-column="check-out" ><%= t("current_booking.check_out") %></th>
+              <th><%= t("current_booking.note") %></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @current_booking.requests.each do |req| %>
+              <% 
+                # Lấy giá từ room_availabilities (nếu nhiều phòng thì cộng lại)
+                total_price = req.room_availability_requests
+                                      .includes(:room_availability)
+                                      .sum { |rar| rar.room_availability.price }
+              %>
+
+              <tr>
+                <td><%= req.id %></td>
+                <td><%= req.room.room_number %></td>
+                <td><%= req.room.room_type.name %></td>
+                <td><%= req.number_of_guests %></td>
+                <td><%= number_to_currency(total_price, unit: "$", delimiter: ".", precision: 0) %></td>
+                <td><%= l(req.check_in, format: :only_date) %></td>
+                <td><%= l(req.check_out, format: :only_date) %></td>
+                <td><%= truncate(req.note, length: 30) %></td>
+                <td>
+                    <%= link_to t("current_booking.delete"), req,
+                      data: { "turbo-method": :delete, turbo_confirm: t("requests.destroy.confirm") },
+                      class: "btn btn-danger btn-sm" %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      <% else %>
+        <h3 class="text-center text-muted"><%= t("current_booking.no_request") %></h3><br>
+      <% end %>
+      <div class="text-center">
+        <%= link_to t("current_booking.add"), rooms_path, method: :patch, class: "btn btn-success btn-lg" %>
+        <% if @current_booking.requests.any? %>
+          <%= link_to t("current_booking.confirm.btn"), confirm_booking_booking_path(@current_booking),
+            data: { "turbo_method": :patch, turbo_confirm: t("current_booking.confirm.noti") },
+            class: "btn btn-primary btn-lg" %>
+          <%= link_to t("current_booking.delete"), @current_booking,
+                        data: { "turbo-method": :delete, turbo_confirm: t("requests.destroy.confirm") },
+                        class: "btn btn-danger btn-lg" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
