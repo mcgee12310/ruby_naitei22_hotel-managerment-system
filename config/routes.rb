@@ -1,8 +1,4 @@
 Rails.application.routes.draw do
-  get 'rooms/index'
-  get 'rooms/show'
-  get 'rooms/new'
-  get 'rooms/edit'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   scope "(:locale)", locale: /en|vi/ do
     root to: "static_pages#home"
@@ -26,8 +22,25 @@ Rails.application.routes.draw do
 
     resources :users, only: :show
 
-    resources :rooms
-  end
+    resources :rooms do
+      resources :bookings, only: [] do
+        member do
+          patch :update_request
+        end
+      end
+      member do
+        get :calculate_price
+      end
+    end
+
+    resources :bookings, only: [:index] do
+      member do
+        patch :update_request
+      end
+    end
+
+    resources :requests
   # Defines the r oot path route ("/")
   # root "articles#index"
+  end
 end

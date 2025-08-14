@@ -6,6 +6,7 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 # db/seeds.rb
+require 'date'
 
 User.create!(
   name: "Admin",
@@ -222,16 +223,17 @@ booking = Booking.create!(
   user_id: 1,
   booking_code: "RU1234",
   booking_date: Time.zone.now,
-  status: 0
+  status: 2
 )
 
 # Request gắn với booking trên
 request = Request.create!(
+  room_id: 1,
   booking_id: booking.id,
   check_in: 3.days.from_now,
   check_out: 8.days.from_now,
   number_of_guests: 2,
-  status: 0,
+  status: 2,
   note: "Need quiet room for business trip."
 )
 
@@ -250,3 +252,14 @@ Review.create!(
   comment: "Very clean and quiet room. Great stay!",
   review_status: 1
 )
+
+Room.find_each do |room|
+  # Tạo dữ liệu cho tháng 8 và tháng 9 năm 2025
+  (Date.new(2025, 8, 25)..Date.new(2025, 8, 31)).each do |date|
+    RoomAvailability.create!(
+      room_id: room.id,
+      available_date: date,
+      price: 50 # giá random từ 500k tới 2 triệu
+    )
+  end
+end

@@ -1,6 +1,5 @@
 vi:
   rooms:
-
     not_found: "Không tìm thấy phòng phù hợp."
     card:
       guest: "người"

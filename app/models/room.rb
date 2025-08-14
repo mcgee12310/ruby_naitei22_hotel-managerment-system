@@ -4,9 +4,9 @@ class Room < ApplicationRecord
   has_many :room_amenities, dependent: :destroy
   has_many :amenities, through: :room_amenities
 
+  has_many :requests, dependent: :destroy
   has_many :room_availabilities, dependent: :destroy
   has_many :room_availability_requests, through: :room_availabilities
-  has_many :requests, through: :room_availability_requests
   has_many :reviews, through: :requests
 
   has_many_attached :images
@@ -37,5 +37,20 @@ class Room < ApplicationRecord
 
   def number_of_rating
     reviews.count(:id)
+  end
+
+  def available_dates
+    room_availabilities
+      .left_joins(:room_availability_requests)
+      .where(room_availability_requests: {id: nil})
+      .pluck(:available_date)
+  end
+
+  def total_price_for_dates check_in, check_out
+    return 0 if check_in.blank? || check_out.blank? || check_in >= check_out
+
+    room_availabilities
+      .where(available_date: check_in...check_out)
+      .sum(:price)
   end
 end
