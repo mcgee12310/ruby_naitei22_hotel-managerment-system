@@ -35,41 +35,17 @@
     }
   }
 
-  .room-gallery {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 48px;
-    height: 400px;
-
-    .primary-image {
-      border-radius: 12px;
-      overflow: hidden;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .thumbnail-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-
-      .thumbnail-image {
-        border-radius: 12px;
-        overflow: hidden;
-        position: relative;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-    }
+  .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .room-content {
     display: grid;
     grid-template-columns: 1fr 400px;
     gap: 120px;
+    margin-top: 20px;
 
     .room-details {
       section {

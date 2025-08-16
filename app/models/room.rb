@@ -1,4 +1,6 @@
 class Room < ApplicationRecord
+  IMAGE_RESIZE_LIMIT = [600, 300].freeze
+
   belongs_to :room_type
 
   has_many :room_amenities, dependent: :destroy
@@ -9,7 +11,9 @@ class Room < ApplicationRecord
   has_many :room_availability_requests, through: :room_availabilities
   has_many :reviews, through: :requests
 
-  has_many_attached :images
+  has_many_attached :images do |attachable|
+    attachable.variant :display, resize_to_limit: IMAGE_RESIZE_LIMIT
+  end
 
   enum status: {
     available: 0,

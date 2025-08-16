@@ -6,7 +6,8 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 # db/seeds.rb
-require 'date'
+require "date"
+require "open-uri"
 
 User.create!(
   name: "Admin",
@@ -261,5 +262,15 @@ Room.find_each do |room|
       available_date: date,
       price: 50 # giá random từ 500k tới 2 triệu
     )
+  end
+end
+
+Room.find_each do |room|
+  room.images.purge
+
+  3.times do |i|
+    url = "https://picsum.photos/seed/#{room.id}-#{i}/800/600"
+    file = URI.open(url)
+    room.images.attach(io: file, filename: "room#{room.id}-#{i}.jpg", content_type: "image/jpeg")
   end
 end

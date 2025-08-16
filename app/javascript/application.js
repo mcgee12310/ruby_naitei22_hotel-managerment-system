@@ -4,5 +4,6 @@ import "controllers"
 import "custom/menu"
 import "custom/available_dates"
 import "custom/price_calculation"
+import "custom/room_images"
 
 require("jquery")

@@ -324,6 +324,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   jquery-rails
+  mini_magick
   mysql2 (~> 0.5)
   pagy
   puma (~> 5.0)
