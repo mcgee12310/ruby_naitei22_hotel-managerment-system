@@ -458,3 +458,21 @@ checked_out_requests.each do |request|
 end
 
 puts "Đã thêm #{Guest.count} guests và #{Review.count} reviews cho các request checked_out."
+
+puts "=== Update RoomAvailabilities for pending/confirm requests ==="
+
+Request.includes(:room, :booking).where(status: [:pending, :confirm]).find_each do |req|
+  if req.room.present? && req.check_in.present? && req.check_out.present?
+    booking_dates = (req.check_in.to_date..req.check_out.to_date).to_a
+
+    updated = req.room.room_availabilities
+                      .where(available_date: booking_dates)
+                      .update_all(is_available: false)
+
+    puts "Request ##{req.id} (Booking ##{req.booking_id}) → Blocked #{updated} dates"
+  else
+    puts "⚠️ Request ##{req.id} skipped (missing room or dates)"
+  end
+end
+
+puts "=== Done updating RoomAvailabilities ==="
