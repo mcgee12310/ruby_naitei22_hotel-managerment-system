@@ -38,4 +38,19 @@ class RequestsController < ApplicationController
     flash[:alert] = t(".alert")
     redirect_back fallback_location: user_bookings_path(current_user)
   end
+
+  def handle_cancel_request
+    if @request.update(status: :cancelled)
+      flash[:success] = t(".cancel.success")
+    else
+      flash[:error] = t(".cancel.failure")
+    end
+  end
+
+  def check_request_status
+    return if @request.status_pending?
+
+    flash[:alert] = t(".alert")
+    redirect_back fallback_location: user_bookings_path(current_user)
+  end
 end
