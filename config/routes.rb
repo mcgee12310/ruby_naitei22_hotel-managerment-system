@@ -8,6 +8,23 @@ Rails.application.routes.draw do
 
     # Error
     get "unauthorized", to: "errors#unauthorized"
+<<<<<<< HEAD
+=======
+    
+
+    # Đăng ký (Sign up)
+    # get "/signup", to: "users#new"
+    # post "/signup", to: "users#create"
+    # put "/users/:id", to: "users#edit"
+
+    # Đăng nhập/Đăng xuất (Login/Logout)
+    # get "/login", to: "sessions#new"
+    # post "/login", to: "sessions#create"
+    # delete "/logout", to: "sessions#destroy"
+
+    # Kích hoạt tài khoản (Account Activations)
+    # resources :account_activations, only: :edit
+>>>>>>> 1e47873 (cancancan)
 
     devise_for :users, only: %i(sessions registrations confirmations passwords)
     # user and nested resources

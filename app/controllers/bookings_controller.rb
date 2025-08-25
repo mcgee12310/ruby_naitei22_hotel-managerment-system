@@ -161,6 +161,7 @@ class BookingsController < ApplicationController
         request.update!(status: :cancelled)
       end
     end
+    flash[:success] = t(".success")
   rescue StandardError => e
     flash[:danger] = e.message
   end
