@@ -8,6 +8,7 @@ class BookingsController < ApplicationController
   before_action :set_current_booking,
                 only: %i(update current_booking confirm_booking)
   before_action :load_current_booking_data, only: %i(current_booking)
+  before_action :load_bookings, only: %i(index)
 
   # GET (/:locale)/bookings(.:format)
   def index; end
@@ -97,6 +98,21 @@ class BookingsController < ApplicationController
                                    )
                                    .find_by(status: :draft)
     return if @current_booking
+
+    flash[:warning] = t("bookings.not_found")
+    redirect_to bookings_path
+  end
+
+  def load_bookings
+    @bookings = current_user.bookings
+                            .includes(
+                              requests: [
+                                {room: :room_type},
+                                {room_availability_requests:
+                                :room_availability}
+                              ]
+                            )
+    return if @bookings
 
     flash[:warning] = t("bookings.not_found")
     redirect_to bookings_path
