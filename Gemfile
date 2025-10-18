@@ -81,11 +81,10 @@ group :development, :test do
   gem "debug", platforms: %i(mri mingw x64_mingw)
   gem "factory_bot_rails"
   gem "rails-controller-testing"
-  gem "rspec-rails", "~> 4.0.1"
+  gem "rspec-rails"
   gem "rubocop", "~> 1.26", require: false
   gem "rubocop-checkstyle_formatter", require: false
   gem "rubocop-rails", "~> 2.14.0", require: false
-  gem "shoulda-matchers", "~> 5.0"
   gem "simplecov"
   gem "simplecov-rcov"
 end
