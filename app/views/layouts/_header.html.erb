@@ -5,7 +5,12 @@
         <li><%= link_to t("header.logo"), home_path, id: "logo" %></li>
         <li><%= link_to t("header.home"), home_path %></li>
         <li><%= link_to t("header.explore"), rooms_path %></li>
-        <li><%= link_to t("header.current_booking"), current_booking_bookings_path %></li>
+        <% if signed_in? %>
+          <li><%= link_to t("header.current_booking"), current_booking_bookings_path %></li>
+        <% end %>
+        <% if can? :access, :admin_panel %>
+          <li><%= link_to t("header.admin"), admin_root_path %></li>
+        <% end %>
       </ul>
       <ul class="user-controls">
         <li>
@@ -23,7 +28,7 @@
             <i class="fa-regular fa-bell"></i>
           </div>
         </li>
-        <% if logged_in? %>
+        <% if user_signed_in? %>
           <li>
             <div class="profile">
               <%= link_to edit_user_path(current_user) do %>
@@ -34,12 +39,12 @@
         <% else %>
           <li>
             <div class="login">
-              <%= link_to t("header.login"), login_path, class: "btn btn-primary" %>
+              <%= link_to t("header.login"), new_user_session_path, class: "btn btn-primary" %>
             </div>
           </li>
           <li>
             <div class="signup">
-              <%= link_to t("header.signup"), signup_path, class: "btn btn-secondary" %>
+              <%= link_to t("header.signup"), new_user_registration_path, class: "btn btn-secondary" %>
             </div>
           </li>
         <% end %>

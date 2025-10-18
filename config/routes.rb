@@ -6,19 +6,10 @@ Rails.application.routes.draw do
     # Static pages
     get "/static_pages/home", to: "static_pages#home", as: "home"
 
-    # Đăng ký (Sign up)
-    get "/signup", to: "users#new"
-    post "/signup", to: "users#create"
-    put "/users/:id", to: "users#edit"
+    # Error
+    get "unauthorized", to: "errors#unauthorized"
 
-    # Đăng nhập/Đăng xuất (Login/Logout)
-    get "/login", to: "sessions#new"
-    post "/login", to: "sessions#create"
-    delete "/logout", to: "sessions#destroy"
-
-    # Kích hoạt tài khoản (Account Activations)
-    resources :account_activations, only: :edit
-
+    devise_for :users, only: %i(sessions registrations confirmations passwords)
     # user and nested resources
     resources :users, only: %i(new create show edit update) do
       resources :bookings, only: %i(index) do
@@ -32,9 +23,8 @@ Rails.application.routes.draw do
         end
       end
       resources :reviews, only: %i(index destroy create)
-      resource :password, only: %i(create edit update)
+      resource :change_password, only: %i(create edit update)
     end
-
 
     # Bài viết (Microposts)
     resources :microposts
@@ -89,5 +79,8 @@ Rails.application.routes.draw do
     end
 
     resources :requests, only: %i(destroy)
+
+    # 404 Not found
+    match "*path", to: "errors#not_found", via: :all
   end
 end

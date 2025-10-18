@@ -1,6 +1,9 @@
 class ReviewsController < ApplicationController
-  before_action :set_user
-  before_action :load_review, only: %i(destroy)
+  before_action :authenticate_user!
+
+  load_and_authorize_resource :user
+
+  before_action :set_review, only: :destroy
 
   # GET (/:locale)/users/:user_id/reviews(.:format)
   def index
@@ -21,20 +24,19 @@ class ReviewsController < ApplicationController
 
   # DELETE (/:locale)/users/:user_id/reviews/:id(.:format)
   def destroy
-    flash[@review&.destroy ? :success : :error] =
-      t(@review ? ".success" : ".error")
+    if @review&.destroy
+      flash[:success] = t(".success")
+    else
+      flash[:error] = t(".error")
+    end
 
     redirect_to after_destroy_path
   end
 
   private
 
-  def set_user
-    @user = User.find_by(id: params[:user_id])
-    return if @user
-
-    flash[:warning] = t(".not_found")
-    redirect_to root_path
+  def set_review
+    @review = @user.reviews.find_by(id: params[:id])
   end
 
   def review_params
@@ -49,13 +51,5 @@ class ReviewsController < ApplicationController
     else
       user_reviews_path(@user)
     end
-  end
-
-  def load_review
-    @review = @user.reviews.find_by(id: params[:id])
-    return if @review
-
-    flash[:warning] = t(".not_found")
-    redirect_to user_reviews_path(@user)
   end
 end
